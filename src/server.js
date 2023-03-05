@@ -1,19 +1,39 @@
 import express from "express";
 import mongoose from "mongoose";
+import dotenv from 'dotenv';
+import fs from 'fs';
+import admin from 'firebase-admin';
 
+//dotenv configuration
+dotenv.config();
+
+//firebase configuration
+const credentials = JSON.parse(
+    fs.readFileSync('./anyatutors_credentials.json')
+);
+admin.initializeApp({
+    credential: admin.credential.cert(credentials),
+});
+
+//express configuration
 const app = express();
 app.use(express.json());
 
-
+//mongoDB configuration
+mongoose.set('strictQuery', true)
 mongoose.connect('mongodb+srv://Arshun:1234@molinadb.h4ldxb3.mongodb.net/prueba?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(console.log("database connected"))
+
+//mongoDB Schemas
 const Schema = mongoose.Schema
 const UserSchema = new Schema({
     name: String
 })
 
+//MongoDB models
 const User = mongoose.model('User', UserSchema)
 
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ CRUD
 
 app.listen(8000, () => {
     console.log('server listening at port 8000');
