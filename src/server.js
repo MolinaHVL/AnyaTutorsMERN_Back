@@ -21,7 +21,7 @@ app.use(express.json());
 
 //mongoDB configuration
 mongoose.set('strictQuery', true)
-mongoose.connect('mongodb+srv://Arshun:1234@molinadb.h4ldxb3.mongodb.net/prueba?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(console.log("database connected"))
 
 //mongoDB Schemas
